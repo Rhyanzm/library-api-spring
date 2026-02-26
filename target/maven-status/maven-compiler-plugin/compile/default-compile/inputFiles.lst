@@ -1,8 +1,8 @@
 /workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/LibraryApiApplication.java
+/workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/config/OpenApiConfig.java
+/workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/config/SecurityConfig.java
 /workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/controllers/BookController.java
 /workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/dtos/BookRecordDto.java
 /workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/models/Book.java
 /workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/repositories/BookRepository.java
 /workspaces/library-api-spring/src/main/java/com/dev/library/libraryapi/services/BookService.java
-/workspaces/library-api-spring/src/main/java/config/OpenApiConfig.java
-/workspaces/library-api-spring/src/main/java/config/SecurityConfig.java

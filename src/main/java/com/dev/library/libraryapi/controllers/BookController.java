@@ -9,21 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;package com.dev.library.libraryapi.controllers;
-
-import com.dev.library.libraryapi.dtos.BookRecordDto;
-import com.dev.library.libraryapi.models.Book;
-import com.dev.library.libraryapi.services.BookService;
-import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/books")
 public class BookController {
 
     private final BookService bookService;
@@ -32,40 +22,39 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping
+    @PostMapping("/books")
     public ResponseEntity<Book> saveBook(@RequestBody @Valid BookRecordDto bookRecordDto) {
-        var bookModel = new Book();
-        BeanUtils.copyProperties(bookRecordDto, bookModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookModel));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
-    }
+    var bookModel = new Book();
+    // Forçamos o set manual se o BeanUtils estiver falhando por nomes diferentes
+    bookModel.setTitle(bookRecordDto.title());
+    bookModel.setAuthor(bookRecordDto.author());
+    bookModel.setIsbn(bookRecordDto.isbn());
+    
+    return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookModel));
 }
 
-@RestController
-@RequestMapping("/books") // Define a rota base como http://localhost:8080/books
-public class BookController {
-
-    // Injeção de dependência via construtor (melhor prática para testabilidade)
-    private final BookService bookService;
-
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
-
-    @PostMapping
-    public ResponseEntity<Book> saveBook(@RequestBody @Valid BookRecordDto bookRecordDto) {
-        var bookModel = new Book();
-        // BeanUtils facilita a conversão de DTO para Model
-        BeanUtils.copyProperties(bookRecordDto, bookModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookModel));
-    }
-
-    @GetMapping
+    @GetMapping("/books")
     public ResponseEntity<List<Book>> getAllBooks() {
         return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
+    }
+
+    // AQUI ESTAVA O ERRO: Mudamos de UUID para Long para bater com seu Repository
+    @GetMapping("/books/{id}")
+    public ResponseEntity<Object> getOneBook(@PathVariable(value = "id") Long id) {
+        Optional<Book> bookO = bookService.findById(id);
+        if(bookO.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(bookO.get());
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Object> deleteBook(@PathVariable(value = "id") Long id) {
+        Optional<Book> bookO = bookService.findById(id);
+        if(bookO.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
+        }
+        bookService.delete(bookO.get());
+        return ResponseEntity.status(HttpStatus.OK).body("Book deleted successfully.");
     }
 }

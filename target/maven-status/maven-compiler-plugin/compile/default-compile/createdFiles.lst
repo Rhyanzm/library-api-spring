@@ -1,0 +1,8 @@
+com/dev/library/libraryapi/dtos/BookRecordDto.class
+com/dev/library/libraryapi/models/Book.class
+com/dev/library/libraryapi/repositories/BookRepository.class
+com/dev/library/libraryapi/config/SecurityConfig.class
+com/dev/library/libraryapi/LibraryApiApplication.class
+com/dev/library/libraryapi/services/BookService.class
+com/dev/library/libraryapi/config/OpenApiConfig.class
+com/dev/library/libraryapi/controllers/BookController.class
