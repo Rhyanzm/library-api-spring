@@ -8,15 +8,15 @@ import java.io.Serializable;
 public class Book implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
     private String title;
     private String author;
     private String isbn;
 
-    // --- MÉTODOS MANUAIS (Para o Maven não dar erro) ---
+    // --- METODOS MANUAIS (EVITAR ERRO NO MVN) ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
