@@ -1,3 +1,6 @@
+@RestController
+@CrossOrigin(origins = "*") // Permite que qualquer front-end acesse sua API
+public class BookController { ... }
 package com.dev.library.libraryapi.controllers;
 
 import com.dev.library.libraryapi.dtos.BookRecordDto;
@@ -57,4 +60,26 @@ public class BookController {
         bookService.delete(bookO.get());
         return ResponseEntity.status(HttpStatus.OK).body("Book deleted successfully.");
     }
+}
+@DeleteMapping("/books/{id}")
+public ResponseEntity<Object> deleteBook(@PathVariable(value="id") Long id) {
+    Optional<Book> bookO = bookService.findById(id);
+    if(bookO.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
+    }
+    bookService.delete(bookO.get());
+    return ResponseEntity.status(HttpStatus.OK).body("Book deleted successfully.");
+}
+@PutMapping("/books/{id}")
+public ResponseEntity<Object> updateBook(@PathVariable(value="id") Long id,
+                                       @RequestBody @Valid BookRecordDto bookRecordDto) {
+    Optional<Book> bookO = bookService.findById(id);
+    if(bookO.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
+    }
+    var bookModel = bookO.get();
+    bookModel.setTitle(bookRecordDto.title());
+    bookModel.setAuthor(bookRecordDto.author());
+    bookModel.setIsbn(bookRecordDto.isbn());
+    return ResponseEntity.status(HttpStatus.OK).body(bookService.save(bookModel));
 }
