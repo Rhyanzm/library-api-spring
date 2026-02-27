@@ -30,13 +30,13 @@ Este projeto foi desenvolvido com foco em boas práticas de engenharia de softwa
 *Abaixo estão as interfaces da nossa documentação via Swagger:*
 
 **1. Interface Geral do Swagger**
-![Swagger Interface](assets/swagger-home.png)
+![Swagger Interface](assets/swagger-home.jpeg)
 
 **2. Criação de um Livro (POST - 201 Created)**
-![POST Request](assets/swagger-post.png)
+![POST Request](assets/swagger-post.jpeg)
 
 **3. Listagem de Livros (GET - 200 OK)**
-![GET Request](assets/swagger-get.png)
+![GET Request](assets/swagger-get.jpeg)
 
 ## ⚙️ Como Executar o Projeto Localmente
 
