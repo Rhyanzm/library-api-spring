@@ -1,7 +1,10 @@
 package com.dev.library.libraryapi.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,16 +16,19 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        Server devServer = new Server();
-        // O Spring vai tentar detectar a URL, ou você pode deixar o campo vazio para ele usar a URL relativa
-        devServer.setUrl("/"); 
-        devServer.setDescription("Servidor de Desenvolvimento (Codespaces)");
-
         return new OpenAPI()
                 .info(new Info()
-                        .title("Library API Restful")
-                        .version("v1")
-                        .description("API para gerenciamento de livros desenvolvida para portfólio."))
-                .servers(List.of(devServer));
+                        .title("Library API")
+                        .version("1.0")
+                        .description("API de Gerenciamento de Livros"))
+                // Força o Swagger a usar caminhos relativos, evitando erro de CORS no Codespaces
+                .servers(List.of(new Server().url("/"))) 
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .name("bearerAuth")
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
     }
 }

@@ -1,51 +1,45 @@
-# 📚 Library API - Gestão de Biblioteca
+# 📚 Library API - Gestão de Biblioteca com Segurança JWT
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Swagger](https://img.shields.io/badge/-Swagger-%23C1272D?style=for-the-badge&logo=swagger&logoColor=white)
 
 ## 💻 Sobre o Projeto
-A **Library API** é um sistema de back-end desenvolvido (RESTful API) para o gerenciamento de livros de uma biblioteca. O projeto permite a criação, leitura, atualização e exclusão (CRUD) de registros literários, garantindo a persistência de dados de forma segura e eficiente.
+A **Library API** é uma solução robusta de back-end (RESTful) para gestão literária. O diferencial desta versão é a implementação de um sistema de **Autenticação e Autorização via JWT (JSON Web Token)**, garantindo que apenas usuários autenticados possam realizar alterações no acervo.
 
-Este projeto foi desenvolvido com foco em boas práticas de engenharia de software, utilizando arquitetura em camadas (Controller, Service, Repository) e validação de dados.
+O projeto utiliza **Arquitetura em Camadas** e segue os princípios de Clean Code, com tratamento global de exceções e validações de DTOs.
 
-## 🚀 Funcionalidades
-- **Cadastrar Livro:** Adiciona um novo livro ao catálogo com validação de campos.
-- **Listar Livros:** Retorna todos os livros cadastrados.
-- **Buscar por ID:** Retorna os detalhes de um livro específico.
-- **Atualizar Livro:** Modifica as informações de um livro existente.
-- **Deletar Livro:** Remove um livro do banco de dados.
+## 🚀 Funcionalidades Principais
+- **🔐 Segurança Avançada:** Sistema de Login e Registro com senhas criptografadas (BCrypt).
+- **📖 Gestão de Livros:** CRUD completo (Create, Read, Update, Delete).
+- **🛡️ Controle de Acesso:** Endpoints de leitura públicos e endpoints de escrita protegidos.
+- **📑 Documentação Interativa:** Swagger UI configurado para testes em tempo real.
 
 ## 🛠️ Tecnologias Utilizadas
-- **Java 17**
-- **Spring Boot 3** (Web, Data JPA, Validation)
-- **PostgreSQL** (Banco de Dados Relacional)
-- **Docker & Docker Compose** (Containerização do Banco de Dados)
-- **Springdoc OpenAPI / Swagger** (Documentação da API)
-- **Maven** (Gerenciamento de Dependências)
+- **Java 17 & Spring Boot 3.4.3**
+- **Spring Security & Auth0 Java JWT** (Segurança)
+- **Spring Data JPA** (Persistência)
+- **H2 Database / PostgreSQL** (Flexibilidade de Banco de Dados)
+- **Springdoc OpenAPI 2.8.5** (Documentação)
+- **Bean Validation** (Integridade de Dados)
 
-## 📸 Demonstração da API
+## 📸 Demonstração e Documentação
 
-*Abaixo estão as interfaces da nossa documentação via Swagger:*
+### 1. Autenticação (JWT)
+Para utilizar os recursos de escrita, é necessário registrar um usuário e obter o Token Bearer.
+![Login e Registro](assets/auth-endpoints.png)
 
-**1. Interface Geral do Swagger**
-![Swagger Interface](assets/swagger-home.jpeg)
+### 2. Autorização no Swagger
+Insira o token gerado no botão **Authorize** para desbloquear os recursos protegidos.
+![Swagger Authorization](assets/swagger-auth.png)
 
-**2. Criação de um Livro (POST - 201 Created)**
-![POST Request](assets/swagger-post.jpeg)
+### 3. Gerenciamento de Livros
+Interface intuitiva para visualização e manipulação do catálogo.
+![Book CRUD](assets/books-endpoints.png)
 
-**3. Listagem de Livros (GET - 200 OK)**
-![GET Request](assets/swagger-get.jpeg)
+## ⚙️ Como Executar
 
-## ⚙️ Como Executar o Projeto Localmente
-
-### Pré-requisitos
-- Java 17+
-- Maven
-- Docker
-
-### Passos
-1. Clone este repositório:
+1. Clone o repositório:
    ```bash
-   git clone [https://github.com/SEU_USUARIO/library-api-spring.git](https://github.com/SEU_USUARIO/library-api-spring.git)
+   git clone [https://github.com/Rhyanzm/library-api-spring.git](https://github.com/Rhyanzm/library-api-spring.git)

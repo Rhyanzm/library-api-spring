@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -39,22 +38,13 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneBook(@PathVariable(value = "id") Long id) {
-        Optional<Book> bookO = bookService.findById(id);
-        if(bookO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
-        }
-        return ResponseEntity.ok(convertToResponseDto(bookO.get()));
+    public ResponseEntity<BookResponseDto> getOneBook(@PathVariable(value = "id") Long id) {
+        Book book = bookService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found with ID: " + id));
+        
+        return ResponseEntity.ok(convertToResponseDto(book));
     }
-    @GetMapping("/{id}")
-public ResponseEntity<BookResponseDto> getOneBook(@PathVariable(value = "id") Long id) {
-    Book book = bookService.findById(id)
-            .orElseThrow(() -> new RuntimeException("Book not found with ID: " + id));
-    
-    return ResponseEntity.ok(convertToResponseDto(book));
-}
 
-    // Método auxiliar para não repetir código de conversão
     private BookResponseDto convertToResponseDto(Book book) {
         return new BookResponseDto(book.getId(), book.getTitle(), book.getAuthor(), book.getIsbn());
     }
