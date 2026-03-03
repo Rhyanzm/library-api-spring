@@ -19,7 +19,7 @@ public class BookService {
 
     @Transactional
     public Book save(BookRequestDto dto) {
-        var book = new Book();
+        Book book = new Book();
         book.setTitle(dto.title());
         book.setAuthor(dto.author());
         book.setIsbn(dto.isbn());
@@ -32,6 +32,26 @@ public class BookService {
 
     public Optional<Book> findById(Long id) {
         return bookRepository.findById(id);
+    }
+
+    @Transactional
+    public Book update(Long id, BookRequestDto dto) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado com ID: " + id));
+        
+        book.setTitle(dto.title());
+        book.setAuthor(dto.author());
+        book.setIsbn(dto.isbn());
+        
+        return bookRepository.save(book);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        if (!bookRepository.existsById(id)) {
+            throw new RuntimeException("Não é possível eliminar: Livro não encontrado com ID: " + id);
+        }
+        bookRepository.deleteById(id);
     }
 
     @Transactional
