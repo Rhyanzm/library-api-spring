@@ -1,5 +1,6 @@
 package com.dev.library.libraryapi.services;
 
+import com.dev.library.libraryapi.dtos.BookRequestDto;
 import com.dev.library.libraryapi.models.Book;
 import com.dev.library.libraryapi.repositories.BookRepository;
 import jakarta.transaction.Transactional;
@@ -17,7 +18,11 @@ public class BookService {
     }
 
     @Transactional
-    public Book save(Book book) {
+    public Book save(BookRequestDto dto) {
+        var book = new Book();
+        book.setTitle(dto.title());
+        book.setAuthor(dto.author());
+        book.setIsbn(dto.isbn());
         return bookRepository.save(book);
     }
 

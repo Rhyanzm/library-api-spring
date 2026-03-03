@@ -1,6 +1,7 @@
 package com.dev.library.libraryapi.controllers;
 
-import com.dev.library.libraryapi.dtos.BookRecordDto;
+import com.dev.library.libraryapi.dtos.BookRequestDto;
+import com.dev.library.libraryapi.dtos.BookResponseDto;
 import com.dev.library.libraryapi.models.Book;
 import com.dev.library.libraryapi.services.BookService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/books")
 @CrossOrigin(origins = "*")
 public class BookController {
 
@@ -21,51 +23,39 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/books")
-    public ResponseEntity<Book> saveBook(@RequestBody @Valid BookRecordDto bookRecordDto) {
-        var bookModel = new Book();
-        bookModel.setTitle(bookRecordDto.title());
-        bookModel.setAuthor(bookRecordDto.author());
-        bookModel.setIsbn(bookRecordDto.isbn());
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookModel));
+    @PostMapping
+    public ResponseEntity<BookResponseDto> saveBook(@RequestBody @Valid BookRequestDto bookRequestDto) {
+        Book savedBook = bookService.save(bookRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(convertToResponseDto(savedBook));
     }
 
-    @GetMapping("/books")
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
+    @GetMapping
+    public ResponseEntity<List<BookResponseDto>> getAllBooks() {
+        List<BookResponseDto> list = bookService.findAll()
+                .stream()
+                .map(this::convertToResponseDto)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getOneBook(@PathVariable(value = "id") Long id) {
         Optional<Book> bookO = bookService.findById(id);
         if(bookO.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(bookO.get());
+        return ResponseEntity.ok(convertToResponseDto(bookO.get()));
     }
+    @GetMapping("/{id}")
+public ResponseEntity<BookResponseDto> getOneBook(@PathVariable(value = "id") Long id) {
+    Book book = bookService.findById(id)
+            .orElseThrow(() -> new RuntimeException("Book not found with ID: " + id));
+    
+    return ResponseEntity.ok(convertToResponseDto(book));
+}
 
-    @PutMapping("/books/{id}")
-    public ResponseEntity<Object> updateBook(@PathVariable(value="id") Long id,
-                                           @RequestBody @Valid BookRecordDto bookRecordDto) {
-        Optional<Book> bookO = bookService.findById(id);
-        if(bookO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
-        }
-        var bookModel = bookO.get();
-        bookModel.setTitle(bookRecordDto.title());
-        bookModel.setAuthor(bookRecordDto.author());
-        bookModel.setIsbn(bookRecordDto.isbn());
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.save(bookModel));
-    }
-
-    @DeleteMapping("/books/{id}")
-    public ResponseEntity<Object> deleteBook(@PathVariable(value = "id") Long id) {
-        Optional<Book> bookO = bookService.findById(id);
-        if(bookO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book not found.");
-        }
-        bookService.delete(bookO.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Book deleted successfully.");
+    // Método auxiliar para não repetir código de conversão
+    private BookResponseDto convertToResponseDto(Book book) {
+        return new BookResponseDto(book.getId(), book.getTitle(), book.getAuthor(), book.getIsbn());
     }
 }
