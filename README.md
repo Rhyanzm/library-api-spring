@@ -44,6 +44,10 @@ Configuração do Swagger para realizar requisições autenticadas.
 Execução de cadastro de livros com o cadeado de segurança ativo.
 ![CRUD Operations](assets/04-book-creation-success.jpeg)
 
+### 5. Garantia de qualidade via testes automatizados
+Execução de cadastro de livros com o cadeado de segurança ativo.
+![CRUD Operations](assets/05-test-junit-mockito.jpeg)
+
 ## ⚙️ Como Executar o Projeto
 
 1. **Clone o repositório:**
