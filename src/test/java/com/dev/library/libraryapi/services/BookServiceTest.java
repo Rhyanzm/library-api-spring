@@ -26,7 +26,7 @@ class BookServiceTest {
     @Test
     @DisplayName("Deve salvar um livro com sucesso")
     void saveBookSuccess() {
-        // Arrange (Configuração dos dados de teste)
+        // Configuração dos dados de teste
         BookRequestDto dto = new BookRequestDto("O Hobbit", "J.R.R. Tolkien", "123456");
         Book book = new Book();
         book.setId(1L);
@@ -36,7 +36,6 @@ class BookServiceTest {
 
         when(bookRepository.save(any(Book.class))).thenReturn(book);
 
-        // Act (Execução do método a ser testado)
         Book savedBook = bookService.save(dto);
 
         // Assert (Verificação dos resultados)

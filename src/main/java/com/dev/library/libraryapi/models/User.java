@@ -20,8 +20,6 @@ public class User implements UserDetails {
     private String password;
     private String role;
 
-    // Getters e Setters...
-
     @Override
     @JsonIgnore // O Swagger vai parar de tentar ler as permissões aqui
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,13 +30,12 @@ public class User implements UserDetails {
     @Override public String getPassword() { return password; }
     @Override public String getUsername() { return login; }
 
-    // Ignore também estes para garantir:
     @Override @JsonIgnore public boolean isAccountNonExpired() { return true; }
     @Override @JsonIgnore public boolean isAccountNonLocked() { return true; }
     @Override @JsonIgnore public boolean isCredentialsNonExpired() { return true; }
     @Override @JsonIgnore public boolean isEnabled() { return true; }
     
-    // Getter para o login (TokenService usa)
+    // Getter para o login (TokenService)
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; }
     public void setPassword(String password) { this.password = password; }

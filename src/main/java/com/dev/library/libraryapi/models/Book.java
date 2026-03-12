@@ -16,7 +16,7 @@ public class Book implements Serializable {
     private String author;
     private String isbn;
 
-    // --- METODOS MANUAIS (EVITAR ERRO NO MVN) ---
+    // METODOS MANUAIS (EVITAR ERRO NO MVN)
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

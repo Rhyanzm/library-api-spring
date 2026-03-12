@@ -21,7 +21,7 @@ public class OpenApiConfig {
                         .title("Library API")
                         .version("1.0")
                         .description("API de Gerenciamento de Livros"))
-                // Força o Swagger a usar caminhos relativos, evitando erro de CORS no Codespaces
+                // usar caminhos relativos, evitando erro de CORS
                 .servers(List.of(new Server().url("/"))) 
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()

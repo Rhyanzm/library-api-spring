@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.dev.library.libraryapi.services.BookServiceTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.541 s -- in com.dev.library.libraryapi.services.BookServiceTest
